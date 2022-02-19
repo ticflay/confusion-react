@@ -10,6 +10,7 @@ import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
+import About from "./AboutComponent";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 class Main extends Component {
@@ -59,6 +60,10 @@ class Main extends Component {
           />
           <Route path="contactus/*" element={<Contact />} />
           <Route path="/" element={<Navigate to="/home" />} />
+          <Route
+            path="/aboutus/*"
+            element={<About leaders={this.state.leaders} />}
+          />
         </Routes>
         <Footer />
       </div>
