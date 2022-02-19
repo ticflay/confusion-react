@@ -25,6 +25,7 @@ class Main extends Component {
   onDishSelect(id) {
     this.setState({ selectedDish: id });
   }
+
   render() {
     return (
       <div>
@@ -47,10 +48,18 @@ class Main extends Component {
             }
           />
           <Route path="menu/*" element={<Menu dishes={this.state.dishes} />} />
+          <Route
+            path="/menu/:dishId"
+            element={
+              <DishDetail
+                dishes={this.state.dishes}
+                comments={this.state.comments}
+              />
+            }
+          />
           <Route path="contactus/*" element={<Contact />} />
           <Route path="/" element={<Navigate to="/home" />} />
         </Routes>
-
         <Footer />
       </div>
     );

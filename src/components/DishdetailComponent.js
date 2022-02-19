@@ -1,5 +1,15 @@
 import React from "react";
-import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
+import {
+  Card,
+  CardImg,
+  CardText,
+  CardBody,
+  CardTitle,
+  Breadcrumb,
+  BreadcrumbItem,
+} from "reactstrap";
+import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function RenderDish({ dish }) {
   if (dish) {
@@ -38,21 +48,34 @@ function RenderComments({ comments }) {
   }
 }
 const DishDetail = (props) => {
+  const { dishes, comments } = props;
+  let { dishId } = useParams();
+  const dish = dishes.filter((dish) => dish.id === parseInt(dishId, 10))[0];
+  const comment = comments.filter(
+    (comment) => comment.dishId === parseInt(dishId, 10)
+  );
   return (
     <div className="container">
-      <div className="row col-12">
+      <div className="row">
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <Link to="/menu">Menu</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
+        </Breadcrumb>
+        <div className="col-12">
+          <h3>{dish.name}</h3>
+        </div>
+      </div>
+      <div className="row">
         <div className="col-12 col-md-5 m-1">
           <Card>
-            <CardImg
-              width="100%"
-              src={props.dish.image}
-              alt={props.dish.name}
-            />
-            <RenderDish dish={props.dish} />
+            <CardImg width="100%" src={dish.image} alt={dish.name} />
+            <RenderDish dish={dish} />
           </Card>
         </div>
         <div className="col-12  col-md-5 m-1">
-          <RenderComments comments={props.dish.comments} />
+          <RenderComments comments={comments} />
         </div>
       </div>
     </div>
