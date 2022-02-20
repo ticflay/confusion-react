@@ -12,16 +12,20 @@ import Home from "./HomeComponent";
 import Contact from "./ContactComponent";
 import About from "./AboutComponent";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { connect } from "react-redux";
+
+const mapStateToProps = (state) => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders,
+  };
+};
 
 class Main extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dishes: DISHES,
-      comments: COMMENTS,
-      promotions: PROMOTIONS,
-      leaders: LEADERS,
-    };
   }
   onDishSelect(id) {
     this.setState({ selectedDish: id });
@@ -36,25 +40,25 @@ class Main extends Component {
             path="home/*"
             element={
               <Home
-                dish={this.state.dishes.filter((dish) => dish.featured)[0]}
+                dish={this.props.dishes.filter((dish) => dish.featured)[0]}
                 promotion={
-                  this.state.promotions.filter(
+                  this.props.promotions.filter(
                     (promotion) => promotion.featured
                   )[0]
                 }
                 leader={
-                  this.state.leaders.filter((leader) => leader.featured)[0]
+                  this.props.leaders.filter((leader) => leader.featured)[0]
                 }
               />
             }
           />
-          <Route path="menu/*" element={<Menu dishes={this.state.dishes} />} />
+          <Route path="menu/*" element={<Menu dishes={this.props.dishes} />} />
           <Route
             path="/menu/:dishId"
             element={
               <DishDetail
-                dishes={this.state.dishes}
-                comments={this.state.comments}
+                dishes={this.props.dishes}
+                comments={this.props.comments}
               />
             }
           />
@@ -62,7 +66,7 @@ class Main extends Component {
           <Route path="/" element={<Navigate to="/home" />} />
           <Route
             path="/aboutus/*"
-            element={<About leaders={this.state.leaders} />}
+            element={<About leaders={this.props.leaders} />}
           />
         </Routes>
         <Footer />
@@ -71,4 +75,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default connect(mapStateToProps)(Main);
